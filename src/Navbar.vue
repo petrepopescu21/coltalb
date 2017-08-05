@@ -68,6 +68,45 @@ export default {
 
 <style>
 
+.coltalb-drawer {
+  border-right: none;
+}
+
+.coltalb-drawer-separator {
+  height: 1px;
+  background-color: #dcdcdc;
+  margin: 8px 0;
+}
+
+
+
+.coltalb-logo-image {
+  height: 50%;
+}
+
+
+.coltalb-drawer .mdl-navigation__link.mdl-navigation__link {
+  font-size: 14px;
+  color: #757575;
+}
+
+.coltalb-drawer span.mdl-navigation__link.mdl-navigation__link {
+  color: rgb(3, 169, 244);
+}
+
+.coltalb-drawer .mdl-layout-title {
+  position: relative;
+  background: rgb(3, 169, 244);
+  height: 160px;
+}
+
+.coltalb-logo-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0 !important;
+}
+
 .coltalb-header .mdl-menu__container {
   z-index: 50;
   margin: 0 !important;
