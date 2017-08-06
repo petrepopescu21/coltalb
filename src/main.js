@@ -14,6 +14,9 @@ import Singlecaine from './Singlecaine.vue'
 import NotFound from './NotFound.vue'
 import NotFoundRedirect from './NotFoundRedirect.vue'
 import Story from './Story.vue'
+import Blog from './Blog.vue'
+import BlogList from './BlogList.vue'
+import BlogPost from './BlogPost.vue'
 import 'vue-awesome/icons/facebook-official'
 import 'vue-awesome/icons/instagram'
 import 'vue-awesome/icons/twitter'
@@ -66,10 +69,28 @@ const router = new VueRouter({
     component: NotFound
   },
   {
+    path: '/blog',
+    component: Blog,
+    children: [
+      {
+        path: '',
+        component: BlogList
+      },
+      {
+        path: 'page/:page',
+        component: BlogList
+      },
+      {
+        path: ':id',
+        component: BlogPost
+      }
+    ]
+  },/*
+  {
     path: '/blog/:id',
     component: Story,
     props: true
-  },
+  },*/
   {
     path: '*',
     component: NotFoundRedirect
@@ -171,7 +192,6 @@ const app = new Vue({
         data.results.forEach((item) => {
           var group = item.getGroup('stories.content').toArray();
         })
-        console.log(data)
         _this.stories = processStories(data)
       })
     })
@@ -189,7 +209,6 @@ const app = new Vue({
 function processStories(data) {
   var returnable = []
   data.results.forEach((item) => {
-    console.log(item)
     returnable.push({
       uid: item.uid,
       title: item.data["stories.title"],

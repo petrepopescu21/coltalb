@@ -47,9 +47,9 @@ export default {
             ).then(function (pageContent) {
                 console.log(pageContent)
                 console.log("!!!!!")
-                if(pageContent.results.length==0)
+                if (pageContent.results.length == 0)
                     return _this.$router.replace('/404')
-                    
+
                 var doc = pageContent.results[0]
                 _this.title = doc.data['stories.title'].value[0][store.state.lang].value
                 var group = doc.getGroup('stories.content').toArray()
