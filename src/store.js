@@ -9,7 +9,8 @@ const state = {
   lang: 'ro',
   labels: {},
   postList: [],
-  postListPosition: 0
+  postListPosition: 0,
+  totalPages: undefined
 }
 
 // mutations are operations that actually mutates the state.
@@ -29,6 +30,9 @@ const mutations = {
   },
   setPostListPosition(state, page){
     state.postListPosition = page
+  },
+  setTotalPages(state,num){
+    state.totalPages = num
   }
 }
 
