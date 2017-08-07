@@ -35,22 +35,6 @@ export default {
 </script>
 
 <style>
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 body {
   margin: 0;
 }
@@ -96,11 +80,6 @@ a img {
 
 .coltalb-mobile-title {
   display: none !important;
-}
-
-
-.coltalb-logo-image {
-  height: 50%;
 }
 
 
@@ -159,39 +138,6 @@ a img {
 }
 
 
-.coltalb-drawer {
-  border-right: none;
-}
-
-.coltalb-drawer-separator {
-  height: 1px;
-  background-color: #dcdcdc;
-  margin: 8px 0;
-}
-
-.coltalb-drawer .mdl-navigation__link.mdl-navigation__link {
-  font-size: 14px;
-  color: #757575;
-}
-
-.coltalb-drawer span.mdl-navigation__link.mdl-navigation__link {
-  color: rgb(3, 169, 244);
-}
-
-.coltalb-drawer .mdl-layout-title {
-  position: relative;
-  background: rgb(3, 169, 244);
-  height: 160px;
-}
-
-.coltalb-drawer .coltalb-logo-image {}
-
-.coltalb-logo-small {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-left: 0 !important;
-}
 
 .coltalb-be-together-section {
   display: flex;
@@ -259,7 +205,6 @@ a img {
 .coltalb-screen-section {
   position: relative;
   padding-top: 60px;
-  padding-bottom: 80px;
 }
 
 .coltalb-screens {
@@ -643,8 +588,4 @@ a img {
   }
 }
 
-.demo-card-square.mdl-card {
-  width: 100%;
-  height: 420px;
-}
 </style>

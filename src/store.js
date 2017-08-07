@@ -7,7 +7,10 @@ Vue.use(Vuex)
 // each Vuex instance is just a single state tree.
 const state = {
   lang: 'ro',
-  labels: {}
+  labels: {},
+  postList: [],
+  postListPosition: 0,
+  totalPages: undefined
 }
 
 // mutations are operations that actually mutates the state.
@@ -16,12 +19,21 @@ const state = {
 // mutations must be synchronous and can be recorded by plugins
 // for debugging purposes.
 const mutations = {
-    updateLang (state,lang) {
-        state.lang=lang
-    },
-    setLabels (state,data) {
-      state.labels=data
-    }
+  updateLang(state, lang) {
+    state.lang = lang
+  },
+  setLabels(state, data) {
+    state.labels = data
+  },
+  setPostList(state, data){
+    state.postList = data
+  },
+  setPostListPosition(state, page){
+    state.postListPosition = page
+  },
+  setTotalPages(state,num){
+    state.totalPages = num
+  }
 }
 
 // actions are functions that causes side effects and can involve
@@ -32,7 +44,9 @@ const actions = {
 
 // getters are functions
 const getters = {
- 
+  getPostList: state => {
+    return state.postList
+  }
 }
 
 // A Vuex instance is created by combining the state, mutations, actions,

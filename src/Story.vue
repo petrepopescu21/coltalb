@@ -30,13 +30,11 @@ export default {
     data() {
         return {
             rawContent: {},
+            content: {},
             'title': ""
         }
     },
     computed: {
-        content: function() {
-            return format.formatArray(this.rawContent.getStructuredText(store.state.lang))
-        }
     },
     methods: {
 
@@ -47,18 +45,15 @@ export default {
             api.query(
                 Prismic.Predicates.at('my.stories.uid', _this.$route.params.id)
             ).then(function (pageContent) {
-                
-                if(pageContent.results.length==0)
+                console.log(pageContent)
+                console.log("!!!!!")
+                if (pageContent.results.length == 0)
                     return _this.$router.replace('/404')
-                    
+
                 var doc = pageContent.results[0]
                 _this.title = doc.data['stories.title'].value[0][store.state.lang].value
-                console.log(doc)
-                var group = doc.getGroup('stories.content').toArray();
-                console.log(group)
-                group.forEach((item) => {
-                    _this.rawContent = item
-                })
+                var group = doc.getGroup('stories.content').toArray()
+                _this.content = format.formatArray(group[0].getStructuredText(store.state.lang))
             });
 
         })

@@ -14,6 +14,9 @@ import Singlecaine from './Singlecaine.vue'
 import NotFound from './NotFound.vue'
 import NotFoundRedirect from './NotFoundRedirect.vue'
 import Story from './Story.vue'
+import Blog from './Blog.vue'
+import BlogList from './BlogList.vue'
+import BlogPost from './BlogPost.vue'
 import 'vue-awesome/icons/facebook-official'
 import 'vue-awesome/icons/instagram'
 import 'vue-awesome/icons/twitter'
@@ -49,31 +52,49 @@ const router = new VueRouter({
   mode: 'history',
   base: __dirname,
   routes: [{
-      path: '/',
-      component: App
-    },
-    {
-      path: '/caini',
-      component: Caini,
-      props: true
-    },
-    {
-      path: '/caini/:id',
-      component: Singlecaine
-    },
-    {
-      path: '/404',
-      component: NotFound
-    },
-    {
-      path: '/blog/:id',
-      component: Story,
-      props: true
-    },
-    {
-      path: '*',
-      component: NotFoundRedirect
-    }
+    path: '/',
+    component: App
+  },
+  {
+    path: '/caini',
+    component: Caini,
+    props: true
+  },
+  {
+    path: '/caini/:id',
+    component: Singlecaine
+  },
+  {
+    path: '/404',
+    component: NotFound
+  },
+  {
+    path: '/blog',
+    component: Blog,
+    children: [
+      {
+        path: '',
+        component: BlogList
+      },
+      {
+        path: 'page/:page',
+        component: BlogList
+      },
+      {
+        path: ':id',
+        component: BlogPost
+      }
+    ]
+  },/*
+  {
+    path: '/blog/:id',
+    component: Story,
+    props: true
+  },*/
+  {
+    path: '*',
+    component: NotFoundRedirect
+  }
   ]
 })
 
@@ -166,17 +187,16 @@ const app = new Vue({
         _this.unprocessedDogs = data
         _this.dogs = processDogs(data, _this.lang)
       })
-      api.query(Prismic.Predicates.at('document.type','stories')
-      ).then(function(data){
-        data.results.forEach((item)=>{
+      api.query(Prismic.Predicates.at('document.type', 'stories')
+      ).then(function (data) {
+        data.results.forEach((item) => {
           var group = item.getGroup('stories.content').toArray();
         })
-        console.log(data)
         _this.stories = processStories(data)
       })
     })
 
-        
+
   },
   updated: function () {
     componentHandler.upgradeDom()
@@ -188,12 +208,11 @@ const app = new Vue({
 
 function processStories(data) {
   var returnable = []
-  data.results.forEach((item)=>{
-    console.log(item)
-      returnable.push({
-        uid : item.uid,
-        title : item.data["stories.title"],
-        rawcontent : item.data["stories.content"]
+  data.results.forEach((item) => {
+    returnable.push({
+      uid: item.uid,
+      title: item.data["stories.title"],
+      rawcontent: item.data["stories.content"]
     })
   })
   return returnable
@@ -243,7 +262,15 @@ function processDogs(data, lang) {
       output.birthdate = ""
       output.age = 0
     }
-
+    if (item.data['dogs.status']) {
+      if (item.data['dogs.status'].value == "adoptat")
+        output.status = 1
+      else if (item.data['dogs.status'].value == "rezervat")
+        output.status = 2
+      else output.status = 0
+    }
+    else output.status = 0
+      
     if (item.data['dogs.sex'])
       output.sex = item.data['dogs.sex'].value
     else
@@ -300,19 +327,22 @@ function processDogs(data, lang) {
     output.largeimages = []
     if (item.data['dogs.gallery']) {
       item.data['dogs.gallery'].value.forEach((image) => {
-        output.images.push(image.image.value.main.url)
+        output.images.push({
+          src: image.image.value.main.url,
+          w: parseInt(image.image.value.main.dimensions.width),
+          h: parseInt(image.image.value.main.dimensions.height)
+        })
         if (image.image.value.views['front'])
           output.frontimages.push({
             src: image.image.value.views['front'].url,
             w: parseInt(image.image.value.views['front'].dimensions.width),
             h: parseInt(image.image.value.views['front'].dimensions.height)
           })
-
-        if (image.image.value.views['large'])
+        if (image.image.value.views['square'])
           output.largeimages.push({
-            src: image.image.value.views['large'].url,
-            w: parseInt(image.image.value.views['large'].dimensions.width),
-            h: parseInt(image.image.value.views['large'].dimensions.height)
+            src: image.image.value.views['square'].url,
+            w: parseInt(image.image.value.views['square'].dimensions.width),
+            h: parseInt(image.image.value.views['square'].dimensions.height)
           })
 
       })

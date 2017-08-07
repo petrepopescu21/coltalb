@@ -9,13 +9,14 @@
         </div>
         <div class="coltalb-content-narrow-mobile">
                 <div class="mdl-grid">
-                <div class="mdl-cell mdl-cell--12-col"><img class="preview-img-item coltalb-dog-first-image" v-bind:src="dog.largeimages[0].src" v-on:click="$photoswipe.open(0, dog.largeimages)"></img></div>
-                <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone" v-for="(item,index) in dog.largeimages" v-if="index!=0">
-                        <img class="preview-img-item coltalb-dog-first-image" v-bind:src="item.src" v-on:click="$photoswipe.open(index, dog.largeimages)"></img>
+                <div class="mdl-cell mdl-cell--12-col"><img class="preview-img-item coltalb-dog-first-image" v-bind:src="dog.largeimages[0].src" v-on:click="$photoswipe.open(0, dog.images)"></img></div>
+                <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone" v-bind:key="index" v-for="(item,index) in dog.largeimages" v-if="index!=0">
+                        <img class="preview-img-item coltalb-dog-first-image" v-bind:src="item.src" v-on:click="$photoswipe.open(index, dog.images)"></img>
                 </div>
                 </div>
         </div>
         <div class="coltalb-content-narrow ">
+                <h4>{{subtitle}}</h4>
                 <div v-html="dog.longdescription"></div>  
         </div>
         <div class="coltalb-content-narrow">
@@ -86,8 +87,12 @@ import Sidebar from './Sidebar.vue'
             dogs: {}
         },
         computed: {
+            subtitle: function() {
+                return store.state.labels.storyof.replace("%",this.dog.name)
+            },
             dog: function () {
                 if(this.dogs) {
+                    
                 let found = false
                  for (var i = 0, len = this.dogs.length; i < len; i++) {
                     if(this.$route.params.id==this.dogs[i].uid) {
