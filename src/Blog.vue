@@ -6,8 +6,6 @@
             <div class="coltalb-content-narrow ">
                 <img class="coltalb-dog-logo-image" src="./assets/colt_alb_negru.png">
                 <h1>Blog</h1>
-            </div>
-            <div class="coltalb-content-narrow ">
                 <router-view></router-view>
             </div>
             <footere></footere>

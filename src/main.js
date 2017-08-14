@@ -17,6 +17,7 @@ import Story from './Story.vue'
 import Blog from './Blog.vue'
 import BlogList from './BlogList.vue'
 import BlogPost from './BlogPost.vue'
+import Test from './Test.vue'
 import 'vue-awesome/icons/facebook-official'
 import 'vue-awesome/icons/instagram'
 import 'vue-awesome/icons/twitter'
@@ -69,6 +70,10 @@ const router = new VueRouter({
     component: NotFound
   },
   {
+    path: '/test',
+    component: Test
+  },
+  {
     path: '/blog',
     component: Blog,
     children: [
@@ -99,6 +104,7 @@ const router = new VueRouter({
 })
 
 const app = new Vue({
+  store,
   el: "#app",
   router: router,
   data: {

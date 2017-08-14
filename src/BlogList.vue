@@ -25,7 +25,6 @@
 var Prismic = require('prismic.io')
 
 
-import store from './store.js'
 import { mapGetters } from 'vuex'
 export default {
     name: 'bloglist',
@@ -54,32 +53,33 @@ export default {
         this.updateList(firstPage)
     },
     computed: {
-        posts() {
-            return store.state.postList
-        },
-        currentPage() {
-            return store.state.postListPosition
-        }
+        ...mapGetters({
+            posts: 'getPostList',
+            currentPage: 'getCurrentPage',
+            totalPages: 'getTotalPages'
+            // ...
+        })
     },
     methods: {
+        getList() {
+
+        },
         is_Natural(n) {
             return (n >= 0.0) && (Math.floor(n) === n) && n !== Infinity;
         },
         updateList(page) {
+            console.log("Update called with page=" + page)
             let _this = this
-            if (isNaN(page) || !this.is_Natural(page) || (store.state.totalPages !== undefined && page > store.state.totalPages)) {
-                let redir = '/blog'
-                if (store.state.totalPages > 1)
-                    redir = '/blog/page/' + store.state.totalPages
-                console.log('Redirecting to '+redir)
+            if (isNaN(page) || (_this.totalPages !== undefined && page > _this.totalPages)) {
+                let redir = '/blog/page/1'
+                if (_this.totalPages > 1)
+                    redir = '/blog/page/' + _this.totalPages
+                console.log('Redirecting someone to ' + redir)
                 _this.$router.push(redir)
             }
             else
                 if (page != this.currentPage && this.posts !== undefined) {
-                    console.log('Current page is ' + this.currentPage)
-                    console.log('Page is ' + page)
-                    console.log('Updating')
-
+                    console.log("Calling api")
                     Prismic.api("//coltalb.prismic.io/api").then(function (api) {
                         api.query(
                             Prismic.Predicates.at('document.type', 'blog'),
@@ -91,27 +91,28 @@ export default {
                         ).then(function (stories) {
                             //If exceeding the max page size, go to 404
 
-                            store.commit('setTotalPages', stories['total_pages'])
+                            _this.$store.commit('setTotalPages', stories['total_pages'])
 
-                            if (store.state.totalPages < page) {
+                            if (_this.totalPages < page) {
                                 console.log('Setting total pages')
                                 console.log('Page is ' + page)
-                                console.log('TotalPages is ' + store.state.totalPages)
-                                store.commit('setPostListPosition', store.state.totalPages)
-                                let redir = '/blog'
-                                if (store.state.totalPages > 1)
-                                    redir = '/blog/page/' + store.state.totalPages
+                                console.log('TotalPages is ' + _this.totalPages)
+                                _this.$store.commit('setPostListPosition', _this.totalPages)
+                                let redir = '/blog/page/1'
+                                if (_this.totalPages > 1)
+                                    redir = '/blog/page/' + _this.totalPages
                                 console.log('Redirecting after API call')
                                 _this.$router.push(redir)
                             }
-                            else store.commit('setPostListPosition', page)
+                            else _this.$store.commit('setPostListPosition', page)
 
-                            store.commit('setPostList', stories.results)
+                            _this.$store.commit('setPostList', stories.results)
 
                         });
 
                     })
                 }
+                else _this.$store.commit('setPostList',_this.postList)
         }
     }
 }

@@ -46,6 +46,12 @@ const actions = {
 const getters = {
   getPostList: state => {
     return state.postList
+  },
+  getCurrentPage: state => {
+    return state.postListPosition
+  },
+  getTotalPages: state => {
+    return state.totalPages
   }
 }
 
